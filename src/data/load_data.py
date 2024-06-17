@@ -28,6 +28,9 @@ def load_mnist_from_local(save_dir):
     x_test = np.load(os.path.join(save_dir, "x_test.npy"))
     y_test = np.load(os.path.join(save_dir, "y_test.npy"))
     print(f"Dataset loaded from local files at {save_dir}")
+    x_train_all = x_train_all.astype(np.float32) / 255
+    x_test = x_test.astype(np.float32) / 255
+
     return (x_train_all, y_train_all), (x_test, y_test)
 
 

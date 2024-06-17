@@ -1,0 +1,107 @@
+[
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "tensorflow",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tensorflow",
+        "description": "tensorflow",
+        "detail": "tensorflow",
+        "documentation": {}
+    },
+    {
+        "label": "tqdm",
+        "importPath": "tqdm",
+        "description": "tqdm",
+        "isExtraImport": true,
+        "detail": "tqdm",
+        "documentation": {}
+    },
+    {
+        "label": "MAML",
+        "importPath": "src.models.MAML",
+        "description": "src.models.MAML",
+        "isExtraImport": true,
+        "detail": "src.models.MAML",
+        "documentation": {}
+    },
+    {
+        "label": "Pyfhel",
+        "importPath": "Pyfhel",
+        "description": "Pyfhel",
+        "isExtraImport": true,
+        "detail": "Pyfhel",
+        "documentation": {}
+    },
+    {
+        "label": "download_and_save_mnist",
+        "kind": 2,
+        "importPath": "src.data.load_data",
+        "description": "src.data.load_data",
+        "peekOfCode": "def download_and_save_mnist(save_dir):\n    (x_train_all, y_train_all), (x_test, y_test) = tf.keras.datasets.mnist.load_data()\n    # Save training data with progress bar\n    for array, name in zip(\n        [x_train_all, y_train_all, x_test, y_test],\n        [\"x_train.npy\", \"y_train.npy\", \"x_test.npy\", \"y_test.npy\"],\n    ):\n        with tqdm(total=len(array), desc=f\"Saving {name}\") as pbar:\n            np.save(os.path.join(save_dir, name), array)\n            pbar.update(len(array))",
+        "detail": "src.data.load_data",
+        "documentation": {}
+    },
+    {
+        "label": "load_mnist_from_local",
+        "kind": 2,
+        "importPath": "src.data.load_data",
+        "description": "src.data.load_data",
+        "peekOfCode": "def load_mnist_from_local(save_dir):\n    x_train_all = np.load(os.path.join(save_dir, \"x_train.npy\"))\n    y_train_all = np.load(os.path.join(save_dir, \"y_train.npy\"))\n    x_test = np.load(os.path.join(save_dir, \"x_test.npy\"))\n    y_test = np.load(os.path.join(save_dir, \"y_test.npy\"))\n    print(f\"Dataset loaded from local files at {save_dir}\")\n    x_train_all = x_train_all.astype(np.float32) / 255\n    x_test = x_test.astype(np.float32) / 255\n    return (x_train_all, y_train_all), (x_test, y_test)\ndef load_mnist():",
+        "detail": "src.data.load_data",
+        "documentation": {}
+    },
+    {
+        "label": "load_mnist",
+        "kind": 2,
+        "importPath": "src.data.load_data",
+        "description": "src.data.load_data",
+        "peekOfCode": "def load_mnist():\n    if not os.path.exists(os.path.join(save_dir, \"x_train.npy\")):\n        download_and_save_mnist(save_dir)\n    return load_mnist_from_local(save_dir)\nif __name__ == \"__main__\":\n    load_mnist()",
+        "detail": "src.data.load_data",
+        "documentation": {}
+    },
+    {
+        "label": "save_dir",
+        "kind": 5,
+        "importPath": "src.data.load_data",
+        "description": "src.data.load_data",
+        "peekOfCode": "save_dir = \"dataset/mnist_data/\"\nos.makedirs(save_dir, exist_ok=True)\ndef download_and_save_mnist(save_dir):\n    (x_train_all, y_train_all), (x_test, y_test) = tf.keras.datasets.mnist.load_data()\n    # Save training data with progress bar\n    for array, name in zip(\n        [x_train_all, y_train_all, x_test, y_test],\n        [\"x_train.npy\", \"y_train.npy\", \"x_test.npy\", \"y_test.npy\"],\n    ):\n        with tqdm(total=len(array), desc=f\"Saving {name}\") as pbar:",
+        "detail": "src.data.load_data",
+        "documentation": {}
+    },
+    {
+        "label": "FMLEE",
+        "kind": 6,
+        "importPath": "src.models.FMLEE",
+        "description": "src.models.FMLEE",
+        "peekOfCode": "class FMLEE:\n    def __init__(self, no_clients, epochs):\n        self.no_clients = no_clients\n        self.epochs = epochs\n        self.HE = self.CKKS()\n        self.clients = []\n        self.init_clients()\n    def model_spec(self):\n        model = tf.keras.models.Sequential(\n            [",
+        "detail": "src.models.FMLEE",
+        "documentation": {}
+    },
+    {
+        "label": "MAML",
+        "kind": 6,
+        "importPath": "src.models.MAML",
+        "description": "src.models.MAML",
+        "peekOfCode": "class MAML(tf.keras.Model):\n    def __init__(self, model):\n        super(MAML, self).__init__()\n        self.model = model\n    def call(self, inputs):\n        x = tf.reshape(inputs, (-1, 28, 28, 1))  # Reshape the input tensor\n        return self.model(x)\n    def get_config(self):\n        return {\"model\": self.model.get_config()}\n    @classmethod",
+        "detail": "src.models.MAML",
+        "documentation": {}
+    }
+]
