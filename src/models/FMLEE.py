@@ -32,7 +32,7 @@ class FMLEE:
     def init_model(self):
         model = MAML(self.model_spec())
         model.compile(
-            optimizer=tf.keras.optimizers.legacy.Adam(),
+            optimizer=tf.keras.optimizers.Adam(),
             loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
             metrics=["accuracy"],
         )
@@ -50,7 +50,7 @@ class FMLEE:
                 30,
                 30,
                 60,
-            ],  
+            ],
         }
         HE.contextGen(**ckks_params)  # Generate context for ckks scheme
         HE.keyGen()  # Key Generation: generates a pair of public/secret keys
